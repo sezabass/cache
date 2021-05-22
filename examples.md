@@ -3,6 +3,7 @@
 - [Examples](#examples)
   - [C# - NuGet](#c---nuget)
   - [D - DUB](#d---dub)
+  - [Dart - Flutter](#dart---flutter)
   - [Elixir - Mix](#elixir---mix)
   - [Go - Modules](#go---modules)
   - [Haskell - Cabal](#haskell---cabal)
@@ -94,6 +95,51 @@ steps:
     key: ${{ runner.os }}-dub-${{ hashFiles('**/dub.json') }}
     restore-keys: |
       ${{ runner.os }}-dub-
+```
+
+### Dart - Flutter
+
+Store Flutter version
+
+```yaml
+- name: Cache flutter
+  uses: actions/cache@v2
+  with:
+    path: |
+      ${{ env.FLUTTER_HOME }}/bin
+    key: install-flutter-1.22.6
+    restore-keys: |
+      install-flutter-
+```
+
+Store pubspec dependencies
+
+```yaml
+- name: Cache pubspec dependencies
+  uses: actions/cache@v2
+  with:
+    path: |
+      ${{ env.FLUTTER_HOME }}/.pub-cache
+      **/.packages
+      **/.flutter-plugins
+      **/.flutter-plugin-dependencies
+      **/.dart_tool/package_config.json
+    key: build-pubspec-${{ hashFiles('**/pubspec.lock') }}
+    restore-keys: |
+      build-pubspec-
+```
+
+Flutter build_runner
+
+```yaml
+- name: Cache build runner
+  uses: actions/cache@v2
+  with:
+    path: |
+      **/.dart_tool/build
+    key: build-runner-${{ hashFiles('**/asset_graph.json') }}-${{ hashFiles('**/pubspec.lock') }}
+    restore-keys: |
+      build-runner-
 ```
 
 ## Elixir - Mix
